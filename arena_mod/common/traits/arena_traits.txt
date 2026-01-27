@@ -62,7 +62,7 @@ arena_rank_d = {
 # Arena Class Traits (Hidden, provide combat bonuses)
 arena_class_warrior = {
 	index = 1010
-	category = combat
+	category = fame
 	
 	shown_in_ruler_designer = no
 	
@@ -84,7 +84,7 @@ arena_class_warrior = {
 
 arena_class_mage = {
 	index = 1011
-	category = combat
+	category = fame
 	
 	shown_in_ruler_designer = no
 	
@@ -106,7 +106,7 @@ arena_class_mage = {
 
 arena_class_rogue = {
 	index = 1012
-	category = combat
+	category = fame
 	
 	shown_in_ruler_designer = no
 	
@@ -129,7 +129,7 @@ arena_class_rogue = {
 # Temporary Arena Status Traits
 arena_in_match = {
 	index = 1020
-	category = combat
+	category = fame
 	
 	shown_in_ruler_designer = no
 	

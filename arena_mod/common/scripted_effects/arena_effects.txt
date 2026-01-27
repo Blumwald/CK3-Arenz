@@ -304,7 +304,7 @@ arena_handle_defeat = {
 		limit = {
 			OR = {
 				has_trait = ambitious
-				has_trait = proud
+				has_trait = arrogant
 			}
 		}
 		add_stress = 20
@@ -327,7 +327,7 @@ arena_handle_defeat = {
 		chance = arena_death_chance
 		
 		death = {
-			death_reason = death_combat
+			death_reason = death_accident
 		}
 	}
 }

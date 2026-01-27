@@ -93,7 +93,7 @@ should_avoid_arena = {
 		
 		# Is heir and risk-averse
 		AND = {
-			is_heir = yes
+			is_heir_of = liege
 			ai_boldness < 0
 		}
 	}

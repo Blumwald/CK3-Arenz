@@ -18,7 +18,7 @@ arena_construct_decision = {
 	}
 	
 	is_valid = {
-		gold >= arena_construction_cost
+		gold >= 200
 		
 		custom_description = {
 			text = arena_construct_not_at_war
@@ -28,7 +28,7 @@ arena_construct_decision = {
 	
 	effect = {
 		# Pay cost
-		remove_short_term_gold = arena_construction_cost
+		remove_short_term_gold = 200
 		
 		# Add arena to county
 		capital_county = {
@@ -170,7 +170,7 @@ arena_enter_decision = {
 		
 		modifier = {
 			factor = 0.1
-			is_heir = yes
+			is_heir_of = liege
 		}
 		
 		modifier = {
