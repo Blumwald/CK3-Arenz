@@ -1,4 +1,5 @@
-﻿# Core effects for arena system
+-ne \xef\xbb\xbf
+# Core effects for arena system
 
 # Initialize arena participant (first time setup)
 arena_initialize_participant = {
@@ -116,16 +117,15 @@ arena_set_bracket_d = {
 
 # Generate arena opponent
 arena_generate_opponent = {
-	# Calculate target prowess
+	# Calculate target prowess (base 10)
 	set_variable = {
 		name = arena_target_prowess
-		value = arena_calculate_opponent_prowess
+		value = 10
 	}
 	
 	# Create opponent character
 	create_character = {
 		location = root.location
-		employer = root.top_liege
 		template = arena_fighter_template
 		dynasty = none
 		age = { 25 35 }
@@ -232,8 +232,8 @@ arena_handle_victory = {
 	}
 	
 	# Add rewards
-	add_gold = arena_calculate_gold_reward
-	add_prestige = arena_calculate_prestige_reward
+	add_gold = 50
+	add_prestige = 100
 	
 	# Add temporary victor trait
 	add_trait = arena_victor
@@ -253,7 +253,7 @@ arena_handle_victory = {
 				has_trait = arrogant
 			}
 		}
-		add_stress = arena_stress_relief
+		add_stress = -20
 	}
 	
 	# Update rank
@@ -286,11 +286,11 @@ arena_handle_defeat = {
 	# Lose fame
 	change_variable = {
 		name = arena_fame
-		add = arena_calculate_fame_loss
+		add = -10
 	}
 	
 	# Lose prestige (scales with rank)
-	add_prestige = arena_calculate_prestige_loss
+	add_prestige = -50
 	
 	# Add crushing defeat modifier if high rank
 	if = {
@@ -309,32 +309,33 @@ arena_handle_defeat = {
 				has_trait = arrogant
 			}
 		}
-		add_stress = arena_loss_stress
+		add_stress = 20
 	}
 	
 	# Injury chance (decreases with prowess)
 	random_list = {
-		arena_calculate_injury_chance = {
-			# Apply injury
+		20 = {
+			# Apply injury (20% chance)
 			add_trait = wounded
 			add_character_modifier = {
 				modifier = arena_recent_injury
 				years = 1
 			}
 		}
-		100 = {
+		80 = {
 			# No injury
 		}
 	}
 	
 	# Death chance (constant, does not scale)
 	random_list = {
-		arena_death_chance = {
+		5 = {
+			# Death (5% chance)
 			death = {
 				death_reason = death_accident
 			}
 		}
-		100 = {
+		95 = {
 			# Survived
 		}
 	}

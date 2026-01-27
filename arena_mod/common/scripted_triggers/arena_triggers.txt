@@ -1,4 +1,5 @@
-﻿# Validation triggers for arena system
+-ne \xef\xbb\xbf
+# Validation triggers for arena system
 
 # Check if character is valid arena participant
 arena_valid_participant = {
@@ -27,7 +28,7 @@ can_construct_arena = {
 	
 	# Character must have enough gold
 	scope:actor = {
-		gold >= arena_construction_cost
+		gold >= 200
 	}
 }
 
