@@ -104,6 +104,24 @@ First time only:
 
 ## Troubleshooting
 
+### Text shows as "arena_construct_decision" instead of proper names
+**This is the most common issue!** It means the localization file isn't loading.
+
+**Solution**:
+1. **Verify file structure**: Check that `mod/arena_mod/localization/english/arena_l_english.yml` exists
+2. **Complete reinstall**:
+   - Close CK3 completely
+   - Delete BOTH `mod/arena_mod/` folder AND `mod/arena_mod.mod` file
+   - Extract the zip fresh and copy both files again
+   - Make sure you copy the ENTIRE `arena_mod` folder, not just some files
+3. **Restart CK3 completely** (not just to main menu - close the entire game)
+4. If still not working, check your CK3 `error.log` file at:
+   - Windows: `Documents\Paradox Interactive\Crusader Kings III\logs\error.log`
+   - Look for errors mentioning "arena" or "localization"
+
+### Decision does nothing when clicked
+This is usually caused by the same localization issue above. Follow the same solution.
+
 ### Mod doesn't appear in launcher
 - Check that both `arena_mod` folder and `arena_mod.mod` file are in the mod directory
 - Restart the CK3 launcher
