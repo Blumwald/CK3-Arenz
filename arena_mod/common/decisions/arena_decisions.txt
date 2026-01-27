@@ -1,7 +1,7 @@
-﻿# Arena construction and entry decisions
+\xef\xbb\xbf# Arena construction and entry decisions
 
 arena_construct_decision = {
-	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	major = yes
 	
 	desc = arena_construct_decision_desc
 	selection_tooltip = arena_construct_decision_tooltip
@@ -72,8 +72,6 @@ arena_construct_decision = {
 }
 
 arena_enter_decision = {
-	picture = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
-	
 	desc = arena_enter_decision_desc
 	selection_tooltip = arena_enter_decision_tooltip
 	
