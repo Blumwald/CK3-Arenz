@@ -71,7 +71,6 @@ is_arena_injured = {
 	OR = {
 		has_trait = wounded
 		has_trait = maimed
-		has_trait = severely_injured
 		health < 2
 	}
 }

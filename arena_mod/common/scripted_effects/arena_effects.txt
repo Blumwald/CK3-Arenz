@@ -310,9 +310,9 @@ arena_handle_defeat = {
 		add_stress = 20
 	}
 	
-	# Injury chance (decreases with prowess)
+	# Injury chance (20%)
 	random = {
-		chance = arena_calculate_injury_chance
+		chance = 20
 		
 		# Apply injury
 		add_trait = wounded
@@ -322,9 +322,9 @@ arena_handle_defeat = {
 		}
 	}
 	
-	# Death chance (constant, does not scale)
+	# Death chance (5%)
 	random = {
-		chance = arena_death_chance
+		chance = 5
 		
 		death = {
 			death_reason = death_accident
