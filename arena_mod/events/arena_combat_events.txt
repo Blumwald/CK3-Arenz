@@ -1,4 +1,4 @@
-namespace = arena_combat
+\xEF\xBB\xBFnamespace = arena_combat
 
 # Match creation and opponent generation
 arena_combat.001 = {

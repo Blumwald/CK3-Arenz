@@ -1,4 +1,4 @@
-# Validation triggers for arena system
+\xEF\xBB\xBF# Validation triggers for arena system
 
 # Check if character is valid arena participant
 arena_valid_participant = {
@@ -71,7 +71,6 @@ is_arena_injured = {
 	OR = {
 		has_trait = wounded
 		has_trait = maimed
-		has_trait = severely_injured
 		health < 2
 	}
 }
@@ -93,7 +92,7 @@ should_avoid_arena = {
 		
 		# Is heir and risk-averse
 		AND = {
-			is_heir = yes
+			is_heir_of = liege
 			ai_boldness < 0
 		}
 	}

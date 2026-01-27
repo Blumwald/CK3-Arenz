@@ -1,4 +1,4 @@
-# Core effects for arena system
+\xEF\xBB\xBF# Core effects for arena system
 
 # Initialize arena participant (first time setup)
 arena_initialize_participant = {
@@ -124,13 +124,15 @@ arena_generate_opponent = {
 	
 	# Create opponent character
 	create_character = {
+		location = root.location
+		employer = root.top_liege
 		template = arena_fighter_template
 		dynasty = none
 		age = { 25 35 }
-		gender = random
+		gender_female_chance = 50
 		
 		# Set prowess to target
-		prowess = scope:actor.var:arena_target_prowess
+		prowess = root.var:arena_target_prowess
 		
 		# Assign random class
 		random_list = {
@@ -304,30 +306,36 @@ arena_handle_defeat = {
 		limit = {
 			OR = {
 				has_trait = ambitious
-				has_trait = proud
+				has_trait = arrogant
 			}
 		}
 		add_stress = arena_loss_stress
 	}
 	
 	# Injury chance (decreases with prowess)
-	random = {
-		chance = arena_calculate_injury_chance
-		
-		# Apply injury
-		add_trait = wounded
-		add_character_modifier = {
-			modifier = arena_recent_injury
-			years = 1
+	random_list = {
+		arena_calculate_injury_chance = {
+			# Apply injury
+			add_trait = wounded
+			add_character_modifier = {
+				modifier = arena_recent_injury
+				years = 1
+			}
+		}
+		100 = {
+			# No injury
 		}
 	}
 	
 	# Death chance (constant, does not scale)
-	random = {
-		chance = arena_death_chance
-		
-		death = {
-			death_reason = death_combat
+	random_list = {
+		arena_death_chance = {
+			death = {
+				death_reason = death_accident
+			}
+		}
+		100 = {
+			# Survived
 		}
 	}
 }

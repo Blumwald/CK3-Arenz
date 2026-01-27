@@ -1,4 +1,4 @@
-# Arena construction and entry decisions
+\xEF\xBB\xBF# Arena construction and entry decisions
 
 arena_construct_decision = {
 	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"
@@ -170,7 +170,7 @@ arena_enter_decision = {
 		
 		modifier = {
 			factor = 0.1
-			is_heir = yes
+			is_heir_of = liege
 		}
 		
 		modifier = {

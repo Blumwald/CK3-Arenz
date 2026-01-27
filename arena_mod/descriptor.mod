@@ -1,4 +1,4 @@
-version="1.0.0"
+\xEF\xBB\xBFversion="1.0.0"
 tags={
 	"Gameplay"
 	"Events"

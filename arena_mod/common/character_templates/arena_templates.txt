@@ -1,0 +1,24 @@
+\xEF\xBB\xBF# Character templates for arena opponents
+
+arena_fighter_template = {
+	age = { 25 35 }
+	gender_female_chance = 50
+	
+	random_traits = yes
+	
+	dynasty = none
+	
+	# Basic combat traits
+	trait = education_martial_2
+	
+	# Random personality traits
+	random_traits_list = {
+		count = { 2 4 }
+		brave
+		wrathful
+		calm
+		craven
+		ambitious
+		humble
+	}
+}
