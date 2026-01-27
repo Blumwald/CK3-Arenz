@@ -4,10 +4,11 @@
 
 ### Critical Fixes Applied
 
-#### 1. UTF-8 BOM Encoding
-**Issue**: All mod files were missing UTF-8 BOM encoding, causing CK3 to reject them.
-**Fix**: Added UTF-8 BOM (byte order mark) to all `.txt`, `.yml`, and `.mod` files.
+#### 1. UTF-8 BOM Encoding (FIXED PROPERLY)
+**Issue**: All mod files were missing UTF-8 BOM encoding, causing CK3 to reject them. Initial fix attempt wrote literal text `\xEF\xBB\xBF` instead of actual BOM bytes.
+**Fix**: Used bash script to properly add UTF-8 BOM bytes (0xEF 0xBB 0xBF) to all `.txt`, `.yml`, and `.mod` files. Verified with `od` command that files now start with proper BOM bytes.
 **Files Affected**: All mod files
+**Verification**: Run `head -c 3 <file> | od -A x -t x1z` to confirm files start with `ef bb bf`
 
 #### 2. Invalid Trait Category
 **Issue**: Used `category = combat` which doesn't exist in CK3.

@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# Validation triggers for arena system
+﻿# Validation triggers for arena system
 
 # Check if character is valid arena participant
 arena_valid_participant = {

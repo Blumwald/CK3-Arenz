@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# Core effects for arena system
+﻿# Core effects for arena system
 
 # Initialize arena participant (first time setup)
 arena_initialize_participant = {

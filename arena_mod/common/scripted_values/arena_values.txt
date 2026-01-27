@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# Configuration values for arena system
+﻿# Configuration values for arena system
 
 # Construction costs
 arena_construction_cost = {

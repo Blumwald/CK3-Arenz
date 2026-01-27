@@ -1,4 +1,4 @@
-\xEF\xBB\xBFnamespace = arena_construction
+﻿namespace = arena_construction
 
 # Arena construction complete
 arena_construction.001 = {

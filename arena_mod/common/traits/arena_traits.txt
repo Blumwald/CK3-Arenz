@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# Arena Rank Traits (MVP: 3 tiers)
+﻿# Arena Rank Traits (MVP: 3 tiers)
 arena_rank_f = {
 	index = 1000
 	category = fame

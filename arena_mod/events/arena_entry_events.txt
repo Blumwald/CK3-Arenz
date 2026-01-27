@@ -1,4 +1,4 @@
-\xEF\xBB\xBFnamespace = arena_entry
+﻿namespace = arena_entry
 
 # Arena entry - Class selection
 arena_entry.001 = {

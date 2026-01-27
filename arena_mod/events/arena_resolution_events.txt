@@ -1,4 +1,4 @@
-\xEF\xBB\xBFnamespace = arena_resolution
+﻿namespace = arena_resolution
 
 # Victory event
 arena_resolution.001 = {

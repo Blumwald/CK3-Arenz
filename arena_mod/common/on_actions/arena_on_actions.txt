@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# On-actions for arena system
+﻿# On-actions for arena system
 
 # Hook into duel end to detect arena matches
 on_duel_end = {

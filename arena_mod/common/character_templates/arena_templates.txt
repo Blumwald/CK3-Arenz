@@ -1,4 +1,4 @@
-\xEF\xBB\xBF# Character templates for arena opponents
+﻿# Character templates for arena opponents
 
 arena_fighter_template = {
 	age = { 25 35 }
