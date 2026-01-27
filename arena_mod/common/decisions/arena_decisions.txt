@@ -1,0 +1,181 @@
+# Arena construction and entry decisions
+
+arena_construct_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	
+	desc = arena_construct_decision_desc
+	selection_tooltip = arena_construct_decision_tooltip
+	
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		
+		# Must be in owned county without arena
+		exists = capital_county
+		capital_county = {
+			NOT = { has_county_modifier = arena_location }
+		}
+	}
+	
+	is_valid = {
+		gold >= arena_construction_cost
+		
+		custom_description = {
+			text = arena_construct_not_at_war
+			NOT = { is_at_war = yes }
+		}
+	}
+	
+	effect = {
+		# Pay cost
+		remove_short_term_gold = arena_construction_cost
+		
+		# Add arena to county
+		capital_county = {
+			add_county_modifier = {
+				modifier = arena_location
+			}
+		}
+		
+		# Trigger construction event
+		trigger_event = arena_construction.001
+	}
+	
+	ai_check_interval = 120
+	
+	ai_potential = {
+		is_at_war = no
+		gold >= 500
+		martial >= 10
+	}
+	
+	ai_will_do = {
+		base = 10
+		
+		modifier = {
+			factor = 2
+			martial >= 15
+		}
+		
+		modifier = {
+			factor = 0.5
+			gold < 1000
+		}
+		
+		modifier = {
+			factor = 0
+			any_sub_realm_county = {
+				has_county_modifier = arena_location
+			}
+		}
+	}
+}
+
+arena_enter_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	
+	desc = arena_enter_decision_desc
+	selection_tooltip = arena_enter_decision_tooltip
+	
+	is_shown = {
+		# Must be in county with arena
+		exists = location
+		location = {
+			county_has_arena = yes
+		}
+		
+		# Must be valid participant
+		arena_valid_participant = yes
+	}
+	
+	is_valid = {
+		# Not injured
+		custom_description = {
+			text = arena_not_injured
+			NOT = { is_arena_injured = yes }
+		}
+		
+		# Not on losing streak
+		custom_description = {
+			text = arena_not_on_losing_streak
+			OR = {
+				NOT = { has_variable = arena_consecutive_losses }
+				var:arena_consecutive_losses < 3
+			}
+		}
+	}
+	
+	effect = {
+		# Initialize if first time
+		if = {
+			limit = { NOT = { has_variable = arena_wins } }
+			arena_initialize_participant = yes
+		}
+		
+		# Trigger entry event (class selection)
+		trigger_event = arena_entry.001
+	}
+	
+	ai_check_interval = 60
+	
+	ai_potential = {
+		arena_valid_participant = yes
+		NOT = { should_avoid_arena = yes }
+		
+		# AI only participates if in their own realm's arena
+		location = {
+			county = {
+				holder = {
+					OR = {
+						this = root
+						is_liege_or_above_of = root
+					}
+				}
+			}
+		}
+	}
+	
+	ai_will_do = {
+		base = 10
+		
+		modifier = {
+			factor = 2
+			has_trait = brave
+		}
+		
+		modifier = {
+			factor = 2
+			has_trait = wrathful
+		}
+		
+		modifier = {
+			factor = 0.5
+			has_trait = craven
+		}
+		
+		modifier = {
+			factor = 0.5
+			has_trait = calm
+		}
+		
+		modifier = {
+			factor = 1.5
+			prowess >= 15
+		}
+		
+		modifier = {
+			factor = 0.5
+			prowess < 10
+		}
+		
+		modifier = {
+			factor = 0.1
+			is_heir = yes
+		}
+		
+		modifier = {
+			factor = 0
+			should_avoid_arena = yes
+		}
+	}
+}

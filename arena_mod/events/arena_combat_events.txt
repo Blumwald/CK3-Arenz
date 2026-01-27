@@ -1,0 +1,104 @@
+namespace = arena_combat
+
+# Match creation and opponent generation
+arena_combat.001 = {
+	type = character_event
+	title = arena_combat.001.t
+	desc = arena_combat.001.desc
+	theme = martial
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	immediate = {
+		# Generate opponent
+		arena_generate_opponent = yes
+		
+		# Apply class bonuses
+		arena_apply_class_bonuses = yes
+		
+		# Set in-match flag
+		add_trait = arena_in_match
+		
+		# Calculate prowess difference for injury calculation
+		set_variable = {
+			name = arena_prowess_difference
+			value = {
+				value = prowess
+				subtract = scope:opponent.prowess
+			}
+		}
+	}
+	
+	# Begin the duel
+	option = {
+		name = arena_combat.001.a
+		
+		# Start vanilla duel
+		start_duel = {
+			target = scope:opponent
+			skill = prowess
+		}
+	}
+	
+	# Forfeit (lose prestige but no injury risk)
+	option = {
+		name = arena_combat.001.b
+		
+		# Lose prestige
+		add_prestige = -100
+		
+		# Gain stress if ambitious/proud
+		if = {
+			limit = {
+				OR = {
+					has_trait = ambitious
+					has_trait = proud
+				}
+			}
+			add_stress = 20
+		}
+		
+		# Clean up
+		arena_cleanup_match = yes
+		
+		# Kill opponent NPC
+		scope:opponent = {
+			death = { death_reason = death_vanished }
+		}
+	}
+}
+
+# Pre-duel flavor event (optional, adds narrative)
+arena_combat.002 = {
+	type = character_event
+	title = arena_combat.002.t
+	desc = arena_combat.002.desc
+	theme = martial
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	right_portrait = {
+		character = scope:opponent
+		animation = personality_bold
+	}
+	
+	immediate = {
+		# Nothing needed
+	}
+	
+	option = {
+		name = arena_combat.002.a
+		
+		# Gain confidence (small prowess boost)
+		add_character_modifier = {
+			modifier = arena_warrior_advantage
+			days = 1
+		}
+	}
+}

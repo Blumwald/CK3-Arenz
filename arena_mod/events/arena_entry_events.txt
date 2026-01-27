@@ -1,0 +1,146 @@
+namespace = arena_entry
+
+# Arena entry - Class selection
+arena_entry.001 = {
+	type = character_event
+	title = arena_entry.001.t
+	desc = arena_entry.001.desc
+	theme = martial
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	immediate = {
+		# Check if character already has a class
+		# If not, they need to choose one
+	}
+	
+	# Choose Warrior class
+	option = {
+		name = arena_entry.001.a
+		
+		trigger = {
+			NOT = { has_arena_class = yes }
+		}
+		
+		arena_set_class_warrior = yes
+		
+		# Proceed to bracket selection
+		trigger_event = arena_entry.002
+	}
+	
+	# Choose Mage class
+	option = {
+		name = arena_entry.001.b
+		
+		trigger = {
+			NOT = { has_arena_class = yes }
+		}
+		
+		arena_set_class_mage = yes
+		
+		# Proceed to bracket selection
+		trigger_event = arena_entry.002
+	}
+	
+	# Choose Rogue class
+	option = {
+		name = arena_entry.001.c
+		
+		trigger = {
+			NOT = { has_arena_class = yes }
+		}
+		
+		arena_set_class_rogue = yes
+		
+		# Proceed to bracket selection
+		trigger_event = arena_entry.002
+	}
+	
+	# Keep current class (if already chosen)
+	option = {
+		name = arena_entry.001.d
+		
+		trigger = {
+			has_arena_class = yes
+		}
+		
+		# Proceed to bracket selection
+		trigger_event = arena_entry.002
+	}
+	
+	# Cancel
+	option = {
+		name = arena_entry.001.e
+		
+		# Do nothing
+	}
+}
+
+# Bracket selection
+arena_entry.002 = {
+	type = character_event
+	title = arena_entry.002.t
+	desc = arena_entry.002.desc
+	theme = martial
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	immediate = {
+		# Nothing needed
+	}
+	
+	# Choose F bracket (easiest)
+	option = {
+		name = arena_entry.002.a
+		
+		trigger = {
+			can_choose_bracket_f = yes
+		}
+		
+		arena_set_bracket_f = yes
+		
+		# Proceed to match creation
+		trigger_event = arena_combat.001
+	}
+	
+	# Choose E bracket
+	option = {
+		name = arena_entry.002.b
+		
+		trigger = {
+			can_choose_bracket_e = yes
+		}
+		
+		arena_set_bracket_e = yes
+		
+		# Proceed to match creation
+		trigger_event = arena_combat.001
+	}
+	
+	# Choose D bracket (hardest for MVP)
+	option = {
+		name = arena_entry.002.c
+		
+		trigger = {
+			can_choose_bracket_d = yes
+		}
+		
+		arena_set_bracket_d = yes
+		
+		# Proceed to match creation
+		trigger_event = arena_combat.001
+	}
+	
+	# Cancel
+	option = {
+		name = arena_entry.002.d
+		
+		# Do nothing
+	}
+}

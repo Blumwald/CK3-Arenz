@@ -1,0 +1,401 @@
+# Core effects for arena system
+
+# Initialize arena participant (first time setup)
+arena_initialize_participant = {
+	# Set initial rank to F
+	add_trait = arena_rank_f
+	set_variable = {
+		name = arena_rank
+		value = 1
+	}
+	set_variable = {
+		name = arena_wins
+		value = 0
+	}
+	set_variable = {
+		name = arena_losses
+		value = 0
+	}
+	set_variable = {
+		name = arena_fame
+		value = 0
+	}
+}
+
+# Update arena rank based on wins
+arena_update_rank = {
+	# Check for rank up to E
+	if = {
+		limit = { qualifies_for_rank_e = yes }
+		remove_trait = arena_rank_f
+		add_trait = arena_rank_e
+		set_variable = {
+			name = arena_rank
+			value = 2
+		}
+		trigger_event = arena_resolution.100 # Rank up event
+	}
+	
+	# Check for rank up to D
+	if = {
+		limit = { qualifies_for_rank_d = yes }
+		remove_trait = arena_rank_e
+		add_trait = arena_rank_d
+		set_variable = {
+			name = arena_rank
+			value = 3
+		}
+		trigger_event = arena_resolution.100 # Rank up event
+	}
+}
+
+# Apply class selection
+arena_set_class_warrior = {
+	# Remove other classes
+	if = {
+		limit = { has_trait = arena_class_mage }
+		remove_trait = arena_class_mage
+	}
+	if = {
+		limit = { has_trait = arena_class_rogue }
+		remove_trait = arena_class_rogue
+	}
+	
+	add_trait = arena_class_warrior
+}
+
+arena_set_class_mage = {
+	# Remove other classes
+	if = {
+		limit = { has_trait = arena_class_warrior }
+		remove_trait = arena_class_warrior
+	}
+	if = {
+		limit = { has_trait = arena_class_rogue }
+		remove_trait = arena_class_rogue
+	}
+	
+	add_trait = arena_class_mage
+}
+
+arena_set_class_rogue = {
+	# Remove other classes
+	if = {
+		limit = { has_trait = arena_class_warrior }
+		remove_trait = arena_class_warrior
+	}
+	if = {
+		limit = { has_trait = arena_class_mage }
+		remove_trait = arena_class_mage
+	}
+	
+	add_trait = arena_class_rogue
+}
+
+# Set chosen bracket (stores difficulty multiplier)
+arena_set_bracket_f = {
+	set_variable = {
+		name = arena_chosen_bracket
+		value = 0.6
+	}
+}
+
+arena_set_bracket_e = {
+	set_variable = {
+		name = arena_chosen_bracket
+		value = 0.8
+	}
+}
+
+arena_set_bracket_d = {
+	set_variable = {
+		name = arena_chosen_bracket
+		value = 1.0
+	}
+}
+
+# Generate arena opponent
+arena_generate_opponent = {
+	# Calculate target prowess
+	set_variable = {
+		name = arena_target_prowess
+		value = arena_calculate_opponent_prowess
+	}
+	
+	# Create opponent character
+	create_character = {
+		template = arena_fighter_template
+		dynasty = none
+		age = { 25 35 }
+		gender = random
+		
+		# Set prowess to target
+		prowess = scope:actor.var:arena_target_prowess
+		
+		# Assign random class
+		random_list = {
+			33 = { add_trait = arena_class_warrior }
+			33 = { add_trait = arena_class_mage }
+			34 = { add_trait = arena_class_rogue }
+		}
+		
+		save_scope_as = opponent
+	}
+}
+
+# Apply class advantages before duel
+arena_apply_class_bonuses = {
+	# Warrior vs Warrior
+	if = {
+		limit = {
+			has_trait = arena_class_warrior
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+		add_character_modifier = {
+			modifier = arena_warrior_advantage
+			days = 1
+		}
+	}
+	
+	# Mage vs Warrior (advantage)
+	if = {
+		limit = {
+			has_trait = arena_class_mage
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+		add_character_modifier = {
+			modifier = arena_mage_vs_warrior
+			days = 1
+		}
+	}
+	
+	# Mage vs Rogue (disadvantage)
+	if = {
+		limit = {
+			has_trait = arena_class_mage
+			scope:opponent = { has_trait = arena_class_rogue }
+		}
+		add_character_modifier = {
+			modifier = arena_mage_vs_rogue
+			days = 1
+		}
+	}
+	
+	# Rogue vs Mage (advantage)
+	if = {
+		limit = {
+			has_trait = arena_class_rogue
+			scope:opponent = { has_trait = arena_class_mage }
+		}
+		add_character_modifier = {
+			modifier = arena_rogue_vs_mage
+			days = 1
+		}
+	}
+	
+	# Rogue vs Warrior (disadvantage)
+	if = {
+		limit = {
+			has_trait = arena_class_rogue
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+		add_character_modifier = {
+			modifier = arena_rogue_vs_warrior
+			days = 1
+		}
+	}
+}
+
+# Handle arena victory
+arena_handle_victory = {
+	# Increment wins
+	change_variable = {
+		name = arena_wins
+		add = 1
+	}
+	
+	# Reset consecutive losses
+	if = {
+		limit = { has_variable = arena_consecutive_losses }
+		remove_variable = arena_consecutive_losses
+	}
+	
+	# Add fame
+	change_variable = {
+		name = arena_fame
+		add = {
+			value = 10
+			multiply = var:arena_rank
+		}
+	}
+	
+	# Add rewards
+	add_gold = arena_calculate_gold_reward
+	add_prestige = arena_calculate_prestige_reward
+	
+	# Add temporary victor trait
+	add_trait = arena_victor
+	
+	# Remove victor trait after 30 days
+	trigger_event = {
+		id = arena_resolution.200
+		days = 30
+	}
+	
+	# Stress relief for appropriate personalities
+	if = {
+		limit = {
+			OR = {
+				has_trait = brave
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+		add_stress = arena_stress_relief
+	}
+	
+	# Update rank
+	arena_update_rank = yes
+}
+
+# Handle arena defeat
+arena_handle_defeat = {
+	# Increment losses
+	change_variable = {
+		name = arena_losses
+		add = 1
+	}
+	
+	# Track consecutive losses
+	if = {
+		limit = { has_variable = arena_consecutive_losses }
+		change_variable = {
+			name = arena_consecutive_losses
+			add = 1
+		}
+	}
+	else = {
+		set_variable = {
+			name = arena_consecutive_losses
+			value = 1
+		}
+	}
+	
+	# Lose fame
+	change_variable = {
+		name = arena_fame
+		add = arena_calculate_fame_loss
+	}
+	
+	# Lose prestige (scales with rank)
+	add_prestige = arena_calculate_prestige_loss
+	
+	# Add crushing defeat modifier if high rank
+	if = {
+		limit = { var:arena_rank >= 2 }
+		add_character_modifier = {
+			modifier = arena_crushing_defeat
+			years = 1
+		}
+	}
+	
+	# Stress for appropriate personalities
+	if = {
+		limit = {
+			OR = {
+				has_trait = ambitious
+				has_trait = proud
+			}
+		}
+		add_stress = arena_loss_stress
+	}
+	
+	# Injury chance (decreases with prowess)
+	random = {
+		chance = arena_calculate_injury_chance
+		
+		# Apply injury
+		add_trait = wounded
+		add_character_modifier = {
+			modifier = arena_recent_injury
+			years = 1
+		}
+	}
+	
+	# Death chance (constant, does not scale)
+	random = {
+		chance = arena_death_chance
+		
+		death = {
+			death_reason = death_combat
+		}
+	}
+}
+
+# Cleanup after arena match
+arena_cleanup_match = {
+	# Remove in-match flag
+	if = {
+		limit = { has_trait = arena_in_match }
+		remove_trait = arena_in_match
+	}
+	
+	# Remove temporary modifiers
+	remove_character_modifier = arena_warrior_advantage
+	remove_character_modifier = arena_mage_vs_warrior
+	remove_character_modifier = arena_mage_vs_rogue
+	remove_character_modifier = arena_rogue_vs_mage
+	remove_character_modifier = arena_rogue_vs_warrior
+	
+	# Clear flags
+	if = {
+		limit = { has_character_flag = arena_won_duel }
+		remove_character_flag = arena_won_duel
+	}
+	if = {
+		limit = { has_character_flag = arena_lost_duel }
+		remove_character_flag = arena_lost_duel
+	}
+	
+	# Clear variables
+	if = {
+		limit = { has_variable = arena_chosen_bracket }
+		remove_variable = arena_chosen_bracket
+	}
+	if = {
+		limit = { has_variable = arena_target_prowess }
+		remove_variable = arena_target_prowess
+	}
+	if = {
+		limit = { has_variable = arena_prowess_difference }
+		remove_variable = arena_prowess_difference
+	}
+}
+
+# Update fame-based opinion modifiers
+arena_update_fame_modifiers = {
+	# Remove all fame modifiers first
+	remove_character_modifier = arena_fame_known
+	remove_character_modifier = arena_fame_famous
+	remove_character_modifier = arena_fame_legendary
+	
+	# Apply appropriate modifier
+	if = {
+		limit = { has_arena_fame_legendary = yes }
+		add_character_modifier = {
+			modifier = arena_fame_legendary
+		}
+	}
+	else_if = {
+		limit = { has_arena_fame_famous = yes }
+		add_character_modifier = {
+			modifier = arena_fame_famous
+		}
+	}
+	else_if = {
+		limit = { has_arena_fame_known = yes }
+		add_character_modifier = {
+			modifier = arena_fame_known
+		}
+	}
+}

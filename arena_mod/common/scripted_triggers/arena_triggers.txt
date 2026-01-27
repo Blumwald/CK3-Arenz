@@ -1,0 +1,191 @@
+# Validation triggers for arena system
+
+# Check if character is valid arena participant
+arena_valid_participant = {
+	is_adult = yes
+	is_alive = yes
+	is_imprisoned = no
+	is_incapable = no
+	prowess >= 6
+	
+	# Not currently in a match
+	NOT = { has_trait = arena_in_match }
+}
+
+# Check if county has an arena
+county_has_arena = {
+	has_county_modifier = arena_location
+}
+
+# Check if character can construct arena in this county
+can_construct_arena = {
+	# Must be county capital holder
+	is_county_capital = yes
+	
+	# County must not already have arena
+	NOT = { has_county_modifier = arena_location }
+	
+	# Character must have enough gold
+	scope:actor = {
+		gold >= arena_construction_cost
+	}
+}
+
+# Check if character has arena rank
+has_arena_rank = {
+	OR = {
+		has_trait = arena_rank_f
+		has_trait = arena_rank_e
+		has_trait = arena_rank_d
+	}
+}
+
+# Check if character has arena class
+has_arena_class = {
+	OR = {
+		has_trait = arena_class_warrior
+		has_trait = arena_class_mage
+		has_trait = arena_class_rogue
+	}
+}
+
+# Check if character can enter arena
+can_enter_arena = {
+	arena_valid_participant = yes
+	
+	# Must be in county with arena
+	location = {
+		county_has_arena = yes
+	}
+	
+	# Must have arena rank (assigned after first entry)
+	# OR be entering for first time
+	OR = {
+		has_arena_rank = yes
+		NOT = { has_variable = arena_wins }
+	}
+}
+
+# Check if character is wounded/injured
+is_arena_injured = {
+	OR = {
+		has_trait = wounded
+		has_trait = maimed
+		has_trait = severely_injured
+		health < 2
+	}
+}
+
+# Check if character should avoid arena (AI safety)
+should_avoid_arena = {
+	OR = {
+		# Too weak
+		prowess < 8
+		
+		# Injured
+		is_arena_injured = yes
+		
+		# On losing streak
+		AND = {
+			has_variable = arena_consecutive_losses
+			var:arena_consecutive_losses >= 3
+		}
+		
+		# Is heir and risk-averse
+		AND = {
+			is_heir = yes
+			ai_boldness < 0
+		}
+	}
+}
+
+# Check bracket validity (can't choose bracket above current rank)
+can_choose_bracket_f = {
+	always = yes
+}
+
+can_choose_bracket_e = {
+	OR = {
+		has_trait = arena_rank_e
+		has_trait = arena_rank_d
+	}
+}
+
+can_choose_bracket_d = {
+	has_trait = arena_rank_d
+}
+
+# Check if character qualifies for rank up
+qualifies_for_rank_e = {
+	has_trait = arena_rank_f
+	var:arena_wins >= 10
+}
+
+qualifies_for_rank_d = {
+	has_trait = arena_rank_e
+	var:arena_wins >= 25
+}
+
+# Fame tier checks
+has_arena_fame_known = {
+	has_variable = arena_fame
+	var:arena_fame >= 101
+	var:arena_fame < 501
+}
+
+has_arena_fame_famous = {
+	has_variable = arena_fame
+	var:arena_fame >= 501
+	var:arena_fame < 1501
+}
+
+has_arena_fame_legendary = {
+	has_variable = arena_fame
+	var:arena_fame >= 1501
+}
+
+# Class matchup checks
+arena_has_class_advantage = {
+	OR = {
+		# Warrior vs Warrior (neutral)
+		AND = {
+			has_trait = arena_class_warrior
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+		# Mage vs Warrior (advantage)
+		AND = {
+			has_trait = arena_class_mage
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+		# Rogue vs Mage (advantage)
+		AND = {
+			has_trait = arena_class_rogue
+			scope:opponent = { has_trait = arena_class_mage }
+		}
+	}
+}
+
+arena_has_class_disadvantage = {
+	OR = {
+		# Mage vs Rogue (disadvantage)
+		AND = {
+			has_trait = arena_class_mage
+			scope:opponent = { has_trait = arena_class_rogue }
+		}
+		# Rogue vs Warrior (disadvantage)
+		AND = {
+			has_trait = arena_class_rogue
+			scope:opponent = { has_trait = arena_class_warrior }
+		}
+	}
+}
+
+# Check if character won last duel
+won_last_duel = {
+	has_character_flag = arena_won_duel
+}
+
+# Check if character lost last duel
+lost_last_duel = {
+	has_character_flag = arena_lost_duel
+}

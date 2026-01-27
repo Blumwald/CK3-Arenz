@@ -1,0 +1,188 @@
+# Configuration values for arena system
+
+# Construction costs
+arena_construction_cost = {
+	value = 200
+}
+
+# Combat risk values (CONSTANT - does not scale with rank)
+arena_base_injury_chance = {
+	value = 0.05
+}
+
+arena_death_chance = {
+	value = 0.02
+}
+
+# Reward base values
+arena_base_gold = {
+	value = 50
+}
+
+arena_base_prestige = {
+	value = 25
+}
+
+# Stress modifiers
+arena_stress_relief = {
+	value = -10
+}
+
+arena_stress_gain = {
+	value = 5
+}
+
+arena_loss_stress = {
+	value = 10
+}
+
+# Bracket difficulty multipliers (opponent prowess scaling)
+bracket_f_mult = {
+	value = 0.6
+}
+
+bracket_e_mult = {
+	value = 0.8
+}
+
+bracket_d_mult = {
+	value = 1.0
+}
+
+# Rank thresholds (MVP: 3 ranks)
+rank_f_threshold = {
+	value = 0
+}
+
+rank_e_threshold = {
+	value = 10
+}
+
+rank_d_threshold = {
+	value = 25
+}
+
+# Fame thresholds
+fame_known_threshold = {
+	value = 101
+}
+
+fame_famous_threshold = {
+	value = 501
+}
+
+fame_legendary_threshold = {
+	value = 1501
+}
+
+# Calculated values
+
+# Get current arena rank (1-3 for MVP)
+arena_get_rank = {
+	value = 1
+	
+	if = {
+		limit = { var:arena_wins >= 25 }
+		value = 3
+	}
+	else_if = {
+		limit = { var:arena_wins >= 10 }
+		value = 2
+	}
+}
+
+# Calculate gold reward based on rank and bracket
+arena_calculate_gold_reward = {
+	value = arena_base_gold
+	
+	# Multiply by rank squared
+	multiply = var:arena_rank
+	multiply = var:arena_rank
+	
+	# Multiply by bracket difficulty
+	if = {
+		limit = { has_variable = arena_chosen_bracket }
+		multiply = var:arena_chosen_bracket
+	}
+}
+
+# Calculate prestige reward based on rank and bracket
+arena_calculate_prestige_reward = {
+	value = arena_base_prestige
+	
+	# Multiply by rank squared
+	multiply = var:arena_rank
+	multiply = var:arena_rank
+	
+	# Multiply by bracket difficulty
+	if = {
+		limit = { has_variable = arena_chosen_bracket }
+		multiply = var:arena_chosen_bracket
+	}
+}
+
+# Calculate prestige loss on defeat (scales with rank)
+arena_calculate_prestige_loss = {
+	value = -50
+	
+	# Multiply by rank squared
+	multiply = var:arena_rank
+	multiply = var:arena_rank
+}
+
+# Calculate fame loss on defeat
+arena_calculate_fame_loss = {
+	value = -20
+	
+	# Multiply by rank
+	multiply = var:arena_rank
+}
+
+# Calculate opponent prowess based on player prowess and bracket
+arena_calculate_opponent_prowess = {
+	value = prowess
+	
+	# Multiply by bracket difficulty
+	if = {
+		limit = { has_variable = arena_chosen_bracket }
+		multiply = var:arena_chosen_bracket
+	}
+	
+	# Clamp to reasonable range
+	min = 6
+	max = 30
+}
+
+# Calculate injury chance (decreases with player prowess)
+arena_calculate_injury_chance = {
+	value = arena_base_injury_chance
+	
+	# Reduce based on prowess advantage
+	if = {
+		limit = { 
+			has_variable = arena_prowess_difference
+			var:arena_prowess_difference > 0
+		}
+		subtract = {
+			value = var:arena_prowess_difference
+			divide = 20
+		}
+	}
+	
+	# Increase if at disadvantage
+	if = {
+		limit = { 
+			has_variable = arena_prowess_difference
+			var:arena_prowess_difference < 0
+		}
+		add = {
+			value = var:arena_prowess_difference
+			multiply = -1
+			divide = 15
+		}
+	}
+	
+	# Clamp to reasonable range
+	min = 0.01
+	max = 0.25
+}

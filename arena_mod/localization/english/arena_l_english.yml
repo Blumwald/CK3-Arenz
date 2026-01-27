@@ -1,0 +1,104 @@
+l_english:
+ # Traits
+ arena_rank_f:0 "Arena Combatant [F Rank]"
+ arena_rank_f_desc:0 "This character is a novice arena fighter with 0-9 victories."
+ arena_rank_e:0 "Arena Fighter [E Rank]"
+ arena_rank_e_desc:0 "This character is an experienced arena fighter with 10-24 victories."
+ arena_rank_d:0 "Arena Veteran [D Rank]"
+ arena_rank_d_desc:0 "This character is a veteran arena champion with 25+ victories."
+ 
+ arena_class_warrior:0 "Arena Warrior"
+ arena_class_warrior_desc:0 "This character fights as a warrior in the arena, specializing in direct combat."
+ arena_class_mage:0 "Arena Mage"
+ arena_class_mage_desc:0 "This character fights as a mage in the arena, using magical prowess."
+ arena_class_rogue:0 "Arena Rogue"
+ arena_class_rogue_desc:0 "This character fights as a rogue in the arena, using speed and cunning."
+ 
+ arena_in_match:0 "In Arena Match"
+ arena_in_match_desc:0 "This character is currently participating in an arena match."
+ arena_victor:0 "Recent Arena Victor"
+ arena_victor_desc:0 "This character recently won an arena match and enjoys increased renown."
+ 
+ # Modifiers
+ arena_location:0 "Arena"
+ arena_warrior_advantage:0 "Warrior's Strength"
+ arena_mage_vs_warrior:0 "Arcane Superiority"
+ arena_mage_vs_rogue:0 "Outmaneuvered"
+ arena_rogue_vs_mage:0 "Swift Strike"
+ arena_rogue_vs_warrior:0 "Overpowered"
+ arena_recent_injury:0 "Arena Injury"
+ arena_crushing_defeat:0 "Crushing Defeat"
+ arena_fame_known:0 "Known Fighter"
+ arena_fame_famous:0 "Famous Champion"
+ arena_fame_legendary:0 "Legendary Warrior"
+ 
+ # Decisions
+ arena_construct_decision:0 "Construct Arena"
+ arena_construct_decision_desc:0 "Build an arena in your capital where warriors can test their mettle in combat."
+ arena_construct_decision_tooltip:0 "Construct an arena for 200 gold"
+ arena_construct_decision_confirm:0 "Begin construction"
+ arena_construct_not_at_war:0 "Not at war"
+ 
+ arena_enter_decision:0 "Enter the Arena"
+ arena_enter_decision_desc:0 "Step into the arena and face an opponent in single combat."
+ arena_enter_decision_tooltip:0 "Challenge an opponent in the arena"
+ arena_enter_decision_confirm:0 "Enter the arena"
+ arena_not_injured:0 "Not injured"
+ arena_not_on_losing_streak:0 "Not on a losing streak"
+ 
+ # Construction Events
+ arena_construction.001.t:0 "Arena Construction Complete"
+ arena_construction.001.desc:0 "The arena stands complete, a grand structure where warriors will test their prowess. The people are excited for the spectacles to come."
+ arena_construction.001.a:0 "Let the games begin!"
+ 
+ # Entry Events
+ arena_entry.001.t:0 "Choose Your Fighting Style"
+ arena_entry.001.desc:0 "Before entering the arena, you must decide how you will fight. Will you rely on raw strength, magical prowess, or cunning agility?"
+ arena_entry.001.a:0 "I fight as a Warrior (Prowess +2, strong vs Warriors)"
+ arena_entry.001.b:0 "I fight as a Mage (Prowess +1, strong vs Warriors, weak vs Rogues)"
+ arena_entry.001.c:0 "I fight as a Rogue (Prowess +1, strong vs Mages, weak vs Warriors)"
+ arena_entry.001.d:0 "Keep my current style"
+ arena_entry.001.e:0 "Never mind"
+ 
+ arena_entry.002.t:0 "Choose Your Opponent"
+ arena_entry.002.desc:0 "The arena master presents you with opponents of varying skill. Choose wisely - greater challenges bring greater rewards, but also greater risks."
+ arena_entry.002.a:0 "F Bracket - Novice opponents (60% of my prowess)"
+ arena_entry.002.b:0 "E Bracket - Skilled opponents (80% of my prowess)"
+ arena_entry.002.c:0 "D Bracket - Veteran opponents (100% of my prowess)"
+ arena_entry.002.d:0 "Cancel"
+ 
+ # Combat Events
+ arena_combat.001.t:0 "Your Opponent Arrives"
+ arena_combat.001.desc:0 "Your opponent enters the arena. The crowd roars with anticipation. This is your moment."
+ arena_combat.001.a:0 "Fight!"
+ arena_combat.001.b:0 "Forfeit (lose prestige, avoid injury)"
+ 
+ arena_combat.002.t:0 "The Duel Begins"
+ arena_combat.002.desc:0 "You face your opponent across the arena floor. Steel yourself for combat."
+ arena_combat.002.a:0 "I am ready"
+ 
+ # Resolution Events
+ arena_resolution.001.t:0 "Victory!"
+ arena_resolution.001.desc:0 "You have defeated your opponent! The crowd erupts in cheers. Your fame grows, and you claim your rewards."
+ arena_resolution.001.a:0 "Bask in the glory"
+ arena_resolution.001.b:0 "Show humility in victory"
+ 
+ arena_resolution.002.t:0 "Defeat"
+ arena_resolution.002.desc:0 "You have been bested in combat. The crowd's cheers are for your opponent. You must accept this defeat and learn from it."
+ arena_resolution.002.a:0 "Accept defeat gracefully"
+ arena_resolution.002.b:0 "Vow revenge"
+ 
+ arena_resolution.100.t:0 "Rank Advancement!"
+ arena_resolution.100.desc:0 "Your victories have earned you recognition. You have advanced to a new rank in the arena!"
+ arena_resolution.100.a:0 "My legend grows"
+ 
+ arena_resolution.200.t:0 "Fame Fades"
+ arena_resolution.200.desc:0 "The immediate glory of your victory has faded, but your reputation remains."
+ 
+ arena_resolution.300.t:0 "Injury Healed"
+ arena_resolution.300.desc:0 "Your wounds from the arena have healed. You are ready to fight again."
+ arena_resolution.300.a:0 "Good as new"
+ 
+ arena_resolution.400.t:0 "Moving On"
+ arena_resolution.400.desc:0 "The sting of your crushing defeat has finally faded. You can hold your head high once more."
+ arena_resolution.400.a:0 "Time heals all wounds"

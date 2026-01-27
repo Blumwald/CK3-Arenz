@@ -1,0 +1,168 @@
+# Arena Rank Traits (MVP: 3 tiers)
+arena_rank_f = {
+	index = 1000
+	category = fame
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_rank_f_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_rank_e
+		arena_rank_d
+	}
+}
+
+arena_rank_e = {
+	index = 1001
+	category = fame
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_rank_e_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_rank_f
+		arena_rank_d
+	}
+}
+
+arena_rank_d = {
+	index = 1002
+	category = fame
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_rank_d_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_rank_f
+		arena_rank_e
+	}
+}
+
+# Arena Class Traits (Hidden, provide combat bonuses)
+arena_class_warrior = {
+	index = 1010
+	category = combat
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	prowess = 2
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_class_warrior_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_class_mage
+		arena_class_rogue
+	}
+}
+
+arena_class_mage = {
+	index = 1011
+	category = combat
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	prowess = 1
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_class_mage_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_class_warrior
+		arena_class_rogue
+	}
+}
+
+arena_class_rogue = {
+	index = 1012
+	category = combat
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	prowess = 1
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_class_rogue_desc
+			}
+		}
+	}
+	
+	opposites = {
+		arena_class_warrior
+		arena_class_mage
+	}
+}
+
+# Temporary Arena Status Traits
+arena_in_match = {
+	index = 1020
+	category = combat
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_in_match_desc
+			}
+		}
+	}
+}
+
+arena_victor = {
+	index = 1021
+	category = fame
+	
+	shown_in_ruler_designer = no
+	can_have_children = all
+	
+	general_opinion = 10
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = arena_victor_desc
+			}
+		}
+	}
+}

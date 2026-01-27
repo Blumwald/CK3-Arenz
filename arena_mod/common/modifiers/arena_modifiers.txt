@@ -1,0 +1,73 @@
+# County Modifier - Marks location as having an arena
+arena_location = {
+	monthly_county_control_growth_add = 0.1
+	county_opinion_add = 5
+	
+	icon = county_modifier_development_positive
+}
+
+# Character Modifiers - Class advantages in combat
+arena_warrior_advantage = {
+	prowess = 2
+	
+	icon = martial_positive
+}
+
+arena_mage_vs_warrior = {
+	prowess = 2
+	
+	icon = learning_positive
+}
+
+arena_mage_vs_rogue = {
+	prowess = -1
+	
+	icon = learning_negative
+}
+
+arena_rogue_vs_mage = {
+	prowess = 2
+	
+	icon = intrigue_positive
+}
+
+arena_rogue_vs_warrior = {
+	prowess = -1
+	
+	icon = intrigue_negative
+}
+
+# Post-combat modifiers
+arena_recent_injury = {
+	prowess = -2
+	health = -0.5
+	
+	icon = health_negative
+}
+
+arena_crushing_defeat = {
+	prestige_per_month = -1.0
+	general_opinion = -10
+	stress_gain_mult = 0.2
+	
+	icon = prestige_negative
+}
+
+# Fame-based opinion modifiers
+arena_fame_known = {
+	general_opinion = 5
+	
+	icon = prestige_positive
+}
+
+arena_fame_famous = {
+	general_opinion = 10
+	
+	icon = prestige_positive
+}
+
+arena_fame_legendary = {
+	general_opinion = 20
+	
+	icon = prestige_positive
+}
