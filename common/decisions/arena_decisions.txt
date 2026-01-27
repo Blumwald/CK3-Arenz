@@ -1,4 +1,4 @@
-﻿# Arena construction and entry decisions
+# Arena construction and entry decisions
 
 arena_construct_decision = {
 	picture = "gfx/interface/illustrations/decisions/decision_misc.dds"

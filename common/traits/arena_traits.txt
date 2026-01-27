@@ -1,9 +1,10 @@
-﻿# Arena Rank Traits (MVP: 3 tiers)
+# Arena Rank Traits (MVP: 3 tiers)
 arena_rank_f = {
 	index = 1000
 	category = fame
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	desc = {
 		first_valid = {
@@ -24,6 +25,7 @@ arena_rank_e = {
 	category = fame
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	desc = {
 		first_valid = {
@@ -44,6 +46,7 @@ arena_rank_d = {
 	category = fame
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	desc = {
 		first_valid = {
@@ -65,6 +68,7 @@ arena_class_warrior = {
 	category = combat
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	prowess = 2
 	
@@ -87,6 +91,7 @@ arena_class_mage = {
 	category = combat
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	prowess = 1
 	
@@ -109,6 +114,7 @@ arena_class_rogue = {
 	category = combat
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	prowess = 1
 	
@@ -132,6 +138,7 @@ arena_in_match = {
 	category = combat
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	desc = {
 		first_valid = {
@@ -147,6 +154,7 @@ arena_victor = {
 	category = fame
 	
 	shown_in_ruler_designer = no
+	can_have_children = all
 	
 	general_opinion = 10
 	

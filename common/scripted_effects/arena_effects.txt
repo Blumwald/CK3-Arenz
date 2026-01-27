@@ -1,4 +1,4 @@
-﻿# Core effects for arena system
+# Core effects for arena system
 
 # Initialize arena participant (first time setup)
 arena_initialize_participant = {
@@ -119,7 +119,7 @@ arena_generate_opponent = {
 	# Calculate target prowess
 	set_variable = {
 		name = arena_target_prowess
-		value = 10
+		value = arena_calculate_opponent_prowess
 	}
 	
 	# Create opponent character
@@ -230,8 +230,8 @@ arena_handle_victory = {
 	}
 	
 	# Add rewards
-	add_gold = 50
-	add_prestige = 100
+	add_gold = arena_calculate_gold_reward
+	add_prestige = arena_calculate_prestige_reward
 	
 	# Add temporary victor trait
 	add_trait = arena_victor
@@ -251,7 +251,7 @@ arena_handle_victory = {
 				has_trait = arrogant
 			}
 		}
-		add_stress = -20
+		add_stress = arena_stress_relief
 	}
 	
 	# Update rank
@@ -284,11 +284,11 @@ arena_handle_defeat = {
 	# Lose fame
 	change_variable = {
 		name = arena_fame
-		add = -10
+		add = arena_calculate_fame_loss
 	}
 	
 	# Lose prestige (scales with rank)
-	add_prestige = -50
+	add_prestige = arena_calculate_prestige_loss
 	
 	# Add crushing defeat modifier if high rank
 	if = {
@@ -307,7 +307,7 @@ arena_handle_defeat = {
 				has_trait = proud
 			}
 		}
-		add_stress = 20
+		add_stress = arena_loss_stress
 	}
 	
 	# Injury chance (decreases with prowess)

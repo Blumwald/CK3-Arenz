@@ -1,0 +1,39 @@
+namespace = arena_construction
+
+# Arena construction complete
+arena_construction.001 = {
+	type = character_event
+	title = arena_construction.001.t
+	desc = arena_construction.001.desc
+	theme = realm
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	immediate = {
+		# Nothing needed
+	}
+	
+	option = {
+		name = arena_construction.001.a
+		
+		# Gain prestige for construction
+		add_prestige = 100
+		
+		# Gain opinion from vassals
+		every_vassal = {
+			limit = { 
+				capital_province = {
+					county = root.capital_county
+				}
+			}
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+	}
+}
