@@ -1,7 +1,6 @@
 ﻿# Arena Decisions
 
 arena_construct_decision = {
-	major = yes
 	desc = arena_construct_decision_desc
 	selection_tooltip = arena_construct_decision_tooltip
 	
@@ -77,7 +76,7 @@ arena_enter_decision = {
 			add_trait = arena_rank_f
 		}
 		
-		# Trigger event to start arena combat
+		# Trigger combat event
 		trigger_event = arena_combat.001
 	}
 	

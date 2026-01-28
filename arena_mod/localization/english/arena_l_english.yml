@@ -68,10 +68,11 @@
  arena_entry.002.d:0 "Cancel"
  
  # Combat Events
- arena_combat.001.t:0 "Your Opponent Arrives"
- arena_combat.001.desc:0 "Your opponent enters the arena. The crowd roars with anticipation. This is your moment."
+ arena_combat.001.t:0 "Arena Combat"
+ arena_combat.001.desc:0 "You step into the arena to face your opponent. Your prowess will determine the outcome."
  arena_combat.001.a:0 "Fight!"
- arena_combat.001.b:0 "Forfeit (lose prestige, avoid injury)"
+ arena_victory_tt:0 "You emerge victorious!"
+ arena_defeat_tt:0 "You are defeated..."
  
  arena_combat.002.t:0 "The Duel Begins"
  arena_combat.002.desc:0 "You face your opponent across the arena floor. Steel yourself for combat."

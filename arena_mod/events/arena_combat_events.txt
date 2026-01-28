@@ -2,7 +2,7 @@
 
 namespace = arena_combat
 
-# Arena Combat Start - Create opponent and begin duel
+# Arena Combat - Prowess-based resolution
 arena_combat.001 = {
 	type = character_event
 	title = arena_combat.001.t
@@ -12,33 +12,100 @@ arena_combat.001 = {
 	left_portrait = root
 	
 	immediate = {
-		# Create arena opponent
-		create_character = {
-			location = root.capital_province
-			dynasty = none
-			age = { 25 35 }
-			gender_female_chance = 50
-			random_traits = yes
-			trait = education_martial_2
-			save_scope_as = arena_opponent
+		# Calculate win chance based on prowess
+		# Base 50% + (prowess - 10) * 3% per point
+		set_variable = {
+			name = arena_win_chance
+			value = {
+				value = 50
+				add = {
+					value = prowess
+					subtract = 10
+					multiply = 3
+				}
+			}
 		}
 		
-		# Start duel with opponent
-		start_duel = {
-			target = scope:arena_opponent
-			skill = prowess
-			value = high_duel_value
+		# Clamp between 10% and 90%
+		if = {
+			limit = { var:arena_win_chance < 10 }
+			set_variable = {
+				name = arena_win_chance
+				value = 10
+			}
 		}
-		
-		# Set flag to track this is an arena duel
-		set_character_flag = {
-			flag = in_arena_duel
-			days = 1
+		if = {
+			limit = { var:arena_win_chance > 90 }
+			set_variable = {
+				name = arena_win_chance
+				value = 90
+			}
 		}
 	}
 	
+	# Victory option
 	option = {
 		name = arena_combat.001.a
-		# Duel will proceed automatically
+		
+		trigger = {
+			# This option appears based on prowess
+			always = yes
+		}
+		
+		random = {
+			chance = var:arena_win_chance
+			
+			# Victory!
+			change_variable = {
+				name = arena_wins
+				add = 1
+			}
+			add_prestige = 50
+			add_gold = 25
+			
+			# Check for rank up to E
+			if = {
+				limit = {
+					var:arena_wins >= 10
+					has_trait = arena_rank_f
+				}
+				remove_trait = arena_rank_f
+				add_trait = arena_rank_e
+			}
+			
+			# Check for rank up to D
+			if = {
+				limit = {
+					var:arena_wins >= 25
+					has_trait = arena_rank_e
+				}
+				remove_trait = arena_rank_e
+				add_trait = arena_rank_d
+			}
+			
+			custom_tooltip = arena_victory_tt
+		}
+		
+		# Defeat (inverse chance)
+		random = {
+			chance = {
+				value = 100
+				subtract = var:arena_win_chance
+			}
+			
+			change_variable = {
+				name = arena_losses
+				add = 1
+			}
+			add_prestige = -25
+			
+			# Injury chance
+			random = {
+				chance = 30
+				add_trait = wounded
+			}
+			
+			custom_tooltip = arena_defeat_tt
+		}
 	}
 }
