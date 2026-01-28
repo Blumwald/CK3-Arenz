@@ -129,8 +129,8 @@ arena_generate_opponent = {
 		age = { 25 35 }
 		gender = random
 		
-		# Set prowess to target
-		prowess = scope:actor.var:arena_target_prowess
+		# Set prowess to target (use root instead of scope:actor)
+		prowess = root.var:arena_target_prowess
 		
 		# Assign random class
 		random_list = {

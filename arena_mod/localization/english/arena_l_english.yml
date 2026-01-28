@@ -71,6 +71,8 @@
  arena_combat.001.t:0 "Your Opponent Arrives"
  arena_combat.001.desc:0 "Your opponent enters the arena. The crowd roars with anticipation. This is your moment."
  arena_combat.001.a:0 "Fight!"
+ arena_combat.001.a.success:0 "You strike true and emerge victorious!"
+ arena_combat.001.a.failure:0 "Your opponent bests you in combat."
  arena_combat.001.b:0 "Forfeit (lose prestige, avoid injury)"
  
  arena_combat.002.t:0 "The Duel Begins"

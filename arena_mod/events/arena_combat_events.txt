@@ -12,6 +12,11 @@ arena_combat.001 = {
 		animation = personality_bold
 	}
 	
+	right_portrait = {
+		character = scope:opponent
+		animation = personality_bold
+	}
+	
 	immediate = {
 		# Generate opponent
 		arena_generate_opponent = yes
@@ -30,16 +35,63 @@ arena_combat.001 = {
 				subtract = scope:opponent.prowess
 			}
 		}
+		
+		# Save opponent to a more persistent scope
+		scope:opponent = {
+			save_scope_as = arena_opponent
+		}
 	}
 	
 	# Begin the duel
 	option = {
 		name = arena_combat.001.a
 		
-		# Start vanilla duel
-		start_duel = {
-			target = scope:opponent
+		# Start vanilla duel with proper scope
+		duel = {
 			skill = prowess
+			target = scope:arena_opponent
+			
+			# Success (player wins)
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3
+					min = -49
+				}
+				
+				desc = arena_combat.001.a.success
+				
+				# Trigger victory event
+				root = {
+					trigger_event = arena_resolution.001
+				}
+				
+				# Remove opponent
+				scope:arena_opponent = {
+					death = { death_reason = death_vanished }
+				}
+			}
+			
+			# Failure (player loses)
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+					min = -49
+				}
+				
+				desc = arena_combat.001.a.failure
+				
+				# Trigger defeat event
+				root = {
+					trigger_event = arena_resolution.002
+				}
+				
+				# Remove opponent
+				scope:arena_opponent = {
+					death = { death_reason = death_vanished }
+				}
+			}
 		}
 	}
 	

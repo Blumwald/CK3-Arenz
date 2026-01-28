@@ -27,19 +27,16 @@ Bracket Selection Event (arena_entry.002)
 Match Creation Event (arena_combat.001)
     ├─ Generate Opponent NPC
     ├─ Apply Class Bonuses
-    └─ Start Vanilla Duel
-    ↓
-Vanilla Duel System (CK3 native)
-    ↓
-on_duel_end Hook (arena_on_actions.txt)
-    ├─ Detect arena_in_match flag
-    └─ Set winner/loser flags
+    └─ Custom Duel System (prowess-based)
+        ├─ Compare prowess values
+        ├─ Apply modifiers
+        └─ Determine winner/loser
     ↓
 Resolution Event (arena_resolution.001 or .002)
     ├─ Calculate Rewards/Penalties
     ├─ Update Variables
     ├─ Apply Modifiers
-    └─ Cleanup
+    └─ Cleanup (remove opponent NPC)
 ```
 
 ### Key Components
