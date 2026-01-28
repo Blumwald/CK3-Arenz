@@ -1,16 +1,13 @@
-\xef\xbb\xbf# Arena construction and entry decisions
+\xef\xbb\xbf# Arena Decisions
 
 arena_construct_decision = {
 	major = yes
-	
 	desc = arena_construct_decision_desc
 	selection_tooltip = arena_construct_decision_tooltip
 	
 	is_shown = {
 		is_ruler = yes
 		is_landed = yes
-		
-		# Must be in owned county without arena
 		exists = capital_county
 		capital_county = {
 			NOT = { has_county_modifier = arena_location }
@@ -19,26 +16,18 @@ arena_construct_decision = {
 	
 	is_valid = {
 		gold >= 200
-		
-		custom_description = {
-			text = arena_construct_not_at_war
-			NOT = { is_at_war = yes }
-		}
+		is_at_war = no
 	}
 	
 	effect = {
-		# Pay cost
 		remove_short_term_gold = 200
-		
-		# Add arena to county
 		capital_county = {
 			add_county_modifier = {
 				modifier = arena_location
+				years = 100
 			}
 		}
-		
-		# Trigger construction event
-		trigger_event = arena_construction.001
+		add_prestige = 100
 	}
 	
 	ai_check_interval = 120
@@ -46,28 +35,10 @@ arena_construct_decision = {
 	ai_potential = {
 		is_at_war = no
 		gold >= 500
-		martial >= 10
 	}
 	
 	ai_will_do = {
 		base = 10
-		
-		modifier = {
-			factor = 2
-			martial >= 15
-		}
-		
-		modifier = {
-			factor = 0.5
-			gold < 1000
-		}
-		
-		modifier = {
-			factor = 0
-			any_sub_realm_county = {
-				has_county_modifier = arena_location
-			}
-		}
 	}
 }
 
@@ -76,61 +47,91 @@ arena_enter_decision = {
 	selection_tooltip = arena_enter_decision_tooltip
 	
 	is_shown = {
-		# Must be in county with arena
 		exists = location
 		location = {
-			county_has_arena = yes
+			county = {
+				has_county_modifier = arena_location
+			}
 		}
-		
-		# Must be valid participant
-		arena_valid_participant = yes
+		is_adult = yes
+		is_imprisoned = no
 	}
 	
 	is_valid = {
-		# Not injured
-		custom_description = {
-			text = arena_not_injured
-			NOT = { is_arena_injured = yes }
-		}
-		
-		# Not on losing streak
-		custom_description = {
-			text = arena_not_on_losing_streak
-			OR = {
-				NOT = { has_variable = arena_consecutive_losses }
-				var:arena_consecutive_losses < 3
-			}
-		}
+		NOT = { has_trait = wounded }
+		NOT = { has_trait = maimed }
 	}
 	
 	effect = {
-		# Initialize if first time
+		# Initialize arena stats if first time
 		if = {
 			limit = { NOT = { has_variable = arena_wins } }
-			arena_initialize_participant = yes
+			set_variable = {
+				name = arena_wins
+				value = 0
+			}
+			set_variable = {
+				name = arena_losses
+				value = 0
+			}
+			add_trait = arena_rank_f
 		}
 		
-		# Trigger entry event (class selection)
-		trigger_event = arena_entry.001
+		# Simple combat resolution
+		random = {
+			chance = 50
+			
+			# Victory
+			change_variable = {
+				name = arena_wins
+				add = 1
+			}
+			add_prestige = 50
+			add_gold = 25
+			
+			# Check for rank up
+			if = {
+				limit = {
+					var:arena_wins >= 10
+					has_trait = arena_rank_f
+				}
+				remove_trait = arena_rank_f
+				add_trait = arena_rank_e
+			}
+			if = {
+				limit = {
+					var:arena_wins >= 25
+					has_trait = arena_rank_e
+				}
+				remove_trait = arena_rank_e
+				add_trait = arena_rank_d
+			}
+		}
+		
+		# Defeat
+		random = {
+			chance = 50
+			
+			change_variable = {
+				name = arena_losses
+				add = 1
+			}
+			add_prestige = -25
+			
+			# Injury chance
+			random = {
+				chance = 20
+				add_trait = wounded
+			}
+		}
 	}
 	
 	ai_check_interval = 60
 	
 	ai_potential = {
-		arena_valid_participant = yes
-		NOT = { should_avoid_arena = yes }
-		
-		# AI only participates if in their own realm's arena
-		location = {
-			county = {
-				holder = {
-					OR = {
-						this = root
-						is_liege_or_above_of = root
-					}
-				}
-			}
-		}
+		is_adult = yes
+		is_imprisoned = no
+		NOT = { has_trait = wounded }
 	}
 	
 	ai_will_do = {
@@ -142,38 +143,8 @@ arena_enter_decision = {
 		}
 		
 		modifier = {
-			factor = 2
-			has_trait = wrathful
-		}
-		
-		modifier = {
 			factor = 0.5
 			has_trait = craven
-		}
-		
-		modifier = {
-			factor = 0.5
-			has_trait = calm
-		}
-		
-		modifier = {
-			factor = 1.5
-			prowess >= 15
-		}
-		
-		modifier = {
-			factor = 0.5
-			prowess < 10
-		}
-		
-		modifier = {
-			factor = 0.1
-			is_heir_of = liege
-		}
-		
-		modifier = {
-			factor = 0
-			should_avoid_arena = yes
 		}
 	}
 }
