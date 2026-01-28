@@ -1,0 +1,75 @@
+﻿# Arena Duel Interaction
+
+arena_duel_interaction = {
+	category = interaction_category_hostile
+	common_interaction = yes
+	interface_priority = 70
+	
+	desc = arena_duel_interaction_desc
+	
+	greeting = positive
+	notification_text = ARENA_DUEL_NOTIFICATION
+	
+	ai_targets = {
+		ai_recipients = courtiers
+	}
+	
+	ai_frequency = 0
+	
+	is_shown = {
+		scope:actor = {
+			has_character_flag = seeking_arena_opponent
+		}
+		scope:recipient = {
+			is_adult = yes
+			is_imprisoned = no
+		}
+	}
+	
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_adult = yes
+			is_imprisoned = no
+		}
+		scope:recipient = {
+			is_adult = yes
+			is_imprisoned = no
+		}
+	}
+	
+	on_accept = {
+		scope:actor = {
+			remove_character_flag = seeking_arena_opponent
+			duel = {
+				skill = prowess
+				target = scope:recipient
+				
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					desc = DUEL_PROWESS_DIFF
+					scope:actor = {
+						trigger_event = arena_resolution.001
+					}
+				}
+				
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					desc = DUEL_PROWESS_DIFF
+					scope:actor = {
+						trigger_event = arena_resolution.002
+					}
+				}
+			}
+		}
+	}
+	
+	auto_accept = yes
+}
