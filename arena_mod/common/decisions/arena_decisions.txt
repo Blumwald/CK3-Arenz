@@ -1,4 +1,4 @@
-\xef\xbb\xbf# Arena Decisions
+﻿# Arena Decisions
 
 arena_construct_decision = {
 	major = yes
