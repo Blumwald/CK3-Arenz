@@ -1,112 +1,15 @@
-﻿# On-actions for arena system
+﻿# Arena on_actions
 
-# Hook into duel end to detect arena matches
-on_duel_end = {
-	on_actions = {
-		arena_duel_end_handler
+# Handle arena duel victory
+on_duel_won = {
+	events = {
+		arena_resolution.001
 	}
 }
 
-# Handle arena duel completion
-arena_duel_end_handler = {
-	trigger = {
-		# Only process if this was an arena match
-		scope:winner = {
-			has_trait = arena_in_match
-		}
-	}
-	
-	effect = {
-		# Set flags for victory/defeat
-		scope:winner = {
-			add_character_flag = {
-				flag = arena_won_duel
-				days = 1
-			}
-		}
-		
-		scope:loser = {
-			add_character_flag = {
-				flag = arena_lost_duel
-				days = 1
-			}
-		}
-		
-		# Trigger resolution events
-		scope:winner = {
-			if = {
-				limit = { has_character_flag = arena_won_duel }
-				trigger_event = {
-					id = arena_resolution.001
-					days = 1
-				}
-			}
-		}
-		
-		scope:loser = {
-			if = {
-				limit = { has_character_flag = arena_lost_duel }
-				trigger_event = {
-					id = arena_resolution.002
-					days = 1
-				}
-			}
-		}
-	}
-}
-
-# Yearly pulse for AI arena participation
-yearly_global_pulse = {
-	on_actions = {
-		arena_ai_participation_check
-	}
-}
-
-# AI considers entering arena
-arena_ai_participation_check = {
-	trigger = {
-		# Only for valid participants
-		arena_valid_participant = yes
-		
-		# Must be in county with arena
-		exists = location
-		location = {
-			county_has_arena = yes
-		}
-		
-		# Not avoiding arena
-		NOT = { should_avoid_arena = yes }
-	}
-	
-	effect = {
-		# 10% chance to participate
-		random = {
-			chance = 10
-			
-			# Modify by traits
-			modifier = {
-				factor = 2
-				has_trait = brave
-			}
-			
-			modifier = {
-				factor = 0.5
-				has_trait = craven
-			}
-			
-			modifier = {
-				factor = 1.5
-				prowess >= 15
-			}
-			
-			# Initialize if needed
-			if = {
-				limit = { NOT = { has_variable = arena_wins } }
-				arena_initialize_participant = yes
-			}
-			
-			# Enter arena
-			trigger_event = arena_entry.001
-		}
+# Handle arena duel defeat
+on_duel_lost = {
+	events = {
+		arena_resolution.002
 	}
 }

@@ -1,218 +1,88 @@
-﻿namespace = arena_resolution
+﻿# Arena Resolution Events
 
-# Victory event
+namespace = arena_resolution
+
+# Arena Victory
 arena_resolution.001 = {
 	type = character_event
 	title = arena_resolution.001.t
 	desc = arena_resolution.001.desc
 	theme = martial
 	
-	left_portrait = {
-		character = root
-		animation = personality_bold
-	}
+	left_portrait = root
 	
-	right_portrait = {
-		character = scope:opponent
-		animation = pain
+	trigger = {
+		has_character_flag = in_arena_duel
 	}
 	
 	immediate = {
-		# Handle victory rewards
-		arena_handle_victory = yes
+		remove_character_flag = in_arena_duel
 		
-		# Update fame modifiers
-		arena_update_fame_modifiers = yes
+		# Update stats
+		change_variable = {
+			name = arena_wins
+			add = 1
+		}
+		add_prestige = 50
+		add_gold = 25
 		
-		# Clean up match
-		arena_cleanup_match = yes
-		
-		# Kill opponent NPC
+		# Check for rank up to E
 		if = {
-			limit = { exists = scope:opponent }
-			scope:opponent = {
-				death = { death_reason = death_vanished }
+			limit = {
+				var:arena_wins >= 10
+				has_trait = arena_rank_f
 			}
+			remove_trait = arena_rank_f
+			add_trait = arena_rank_e
+		}
+		
+		# Check for rank up to D
+		if = {
+			limit = {
+				var:arena_wins >= 25
+				has_trait = arena_rank_e
+			}
+			remove_trait = arena_rank_e
+			add_trait = arena_rank_d
 		}
 	}
 	
 	option = {
 		name = arena_resolution.001.a
-		
-		# Celebrate victory
-		add_prestige = 50
-	}
-	
-	option = {
-		name = arena_resolution.001.b
-		
-		trigger = {
-			OR = {
-				has_trait = humble
-				has_trait = calm
-			}
-		}
-		
-		# Show humility
-		add_piety = 50
 	}
 }
 
-# Defeat event
+# Arena Defeat
 arena_resolution.002 = {
 	type = character_event
 	title = arena_resolution.002.t
 	desc = arena_resolution.002.desc
 	theme = martial
 	
-	left_portrait = {
-		character = root
-		animation = pain
-	}
+	left_portrait = root
 	
-	right_portrait = {
-		character = scope:opponent
-		animation = personality_bold
+	trigger = {
+		has_character_flag = in_arena_duel
 	}
 	
 	immediate = {
-		# Handle defeat consequences
-		arena_handle_defeat = yes
+		remove_character_flag = in_arena_duel
 		
-		# Update fame modifiers
-		arena_update_fame_modifiers = yes
+		# Update stats
+		change_variable = {
+			name = arena_losses
+			add = 1
+		}
+		add_prestige = -25
 		
-		# Clean up match
-		arena_cleanup_match = yes
-		
-		# Kill opponent NPC
-		if = {
-			limit = { exists = scope:opponent }
-			scope:opponent = {
-				death = { death_reason = death_vanished }
-			}
+		# Injury chance
+		random = {
+			chance = 30
+			add_trait = wounded
 		}
 	}
 	
 	option = {
 		name = arena_resolution.002.a
-		
-		# Accept defeat
-		add_stress = 10
-	}
-	
-	option = {
-		name = arena_resolution.002.b
-		
-		trigger = {
-			OR = {
-				has_trait = ambitious
-				has_trait = wrathful
-			}
-		}
-		
-		# Vow revenge (reduce stress but lose more prestige)
-		add_stress = -5
-		add_prestige = -50
-	}
-}
-
-# Rank up event
-arena_resolution.100 = {
-	type = character_event
-	title = arena_resolution.100.t
-	desc = arena_resolution.100.desc
-	theme = martial
-	
-	left_portrait = {
-		character = root
-		animation = personality_bold
-	}
-	
-	immediate = {
-		# Nothing needed
-	}
-	
-	option = {
-		name = arena_resolution.100.a
-		
-		# Gain prestige for rank up
-		add_prestige = {
-			value = 100
-			multiply = var:arena_rank
-		}
-		
-		# Gain fame
-		change_variable = {
-			name = arena_fame
-			add = {
-				value = 50
-				multiply = var:arena_rank
-			}
-		}
-		
-		# Update fame modifiers
-		arena_update_fame_modifiers = yes
-	}
-}
-
-# Remove victor trait after 30 days
-arena_resolution.200 = {
-	type = character_event
-	hidden = yes
-	
-	immediate = {
-		if = {
-			limit = { has_trait = arena_victor }
-			remove_trait = arena_victor
-		}
-	}
-}
-
-# Injury recovery event
-arena_resolution.300 = {
-	type = character_event
-	title = arena_resolution.300.t
-	desc = arena_resolution.300.desc
-	theme = health
-	
-	left_portrait = {
-		character = root
-		animation = personality_rational
-	}
-	
-	immediate = {
-		# Remove injury modifier
-		remove_character_modifier = arena_recent_injury
-	}
-	
-	option = {
-		name = arena_resolution.300.a
-		
-		# Glad to be recovered
-	}
-}
-
-# Crushing defeat recovery
-arena_resolution.400 = {
-	type = character_event
-	title = arena_resolution.400.t
-	desc = arena_resolution.400.desc
-	theme = mental_health
-	
-	left_portrait = {
-		character = root
-		animation = personality_rational
-	}
-	
-	immediate = {
-		# Remove crushing defeat modifier
-		remove_character_modifier = arena_crushing_defeat
-	}
-	
-	option = {
-		name = arena_resolution.400.a
-		
-		# Move on
 	}
 }

@@ -88,74 +88,17 @@ arena_enter_decision = {
 			save_scope_as = arena_opponent
 		}
 		
-		# Start duel with opponent
+		# Start duel
 		start_duel = {
 			target = scope:arena_opponent
 			skill = prowess
 			value = high_duel_value
-			
-			# On victory
-			on_win = {
-				duel_winner = {
-					change_variable = {
-						name = arena_wins
-						add = 1
-					}
-					add_prestige = 50
-					add_gold = 25
-					
-					# Check for rank up to E
-					if = {
-						limit = {
-							var:arena_wins >= 10
-							has_trait = arena_rank_f
-						}
-						remove_trait = arena_rank_f
-						add_trait = arena_rank_e
-					}
-					
-					# Check for rank up to D
-					if = {
-						limit = {
-							var:arena_wins >= 25
-							has_trait = arena_rank_e
-						}
-						remove_trait = arena_rank_e
-						add_trait = arena_rank_d
-					}
-				}
-				
-				# Remove opponent after duel
-				duel_loser = {
-					death = {
-						death_reason = death_accident
-					}
-				}
-			}
-			
-			# On defeat
-			on_loss = {
-				duel_loser = {
-					change_variable = {
-						name = arena_losses
-						add = 1
-					}
-					add_prestige = -25
-					
-					# Injury chance
-					random = {
-						chance = 30
-						add_trait = wounded
-					}
-				}
-				
-				# Remove opponent after duel
-				duel_winner = {
-					death = {
-						death_reason = death_accident
-					}
-				}
-			}
+		}
+		
+		# Set flag to track duel result
+		set_character_flag = {
+			flag = in_arena_duel
+			days = 1
 		}
 	}
 	
