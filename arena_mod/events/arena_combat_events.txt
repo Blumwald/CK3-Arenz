@@ -1,104 +1,44 @@
-﻿namespace = arena_combat
+﻿# Arena Combat Events
 
-# Match creation and opponent generation
+namespace = arena_combat
+
+# Arena Combat Start - Create opponent and begin duel
 arena_combat.001 = {
 	type = character_event
 	title = arena_combat.001.t
 	desc = arena_combat.001.desc
 	theme = martial
 	
-	left_portrait = {
-		character = root
-		animation = personality_bold
-	}
+	left_portrait = root
 	
 	immediate = {
-		# Generate opponent
-		arena_generate_opponent = yes
-		
-		# Apply class bonuses
-		arena_apply_class_bonuses = yes
-		
-		# Set in-match flag
-		add_trait = arena_in_match
-		
-		# Calculate prowess difference for injury calculation
-		set_variable = {
-			name = arena_prowess_difference
-			value = {
-				value = prowess
-				subtract = scope:opponent.prowess
-			}
+		# Create arena opponent
+		create_character = {
+			location = root.capital_province
+			dynasty = none
+			age = { 25 35 }
+			gender_female_chance = 50
+			random_traits = yes
+			trait = education_martial_2
+			save_scope_as = arena_opponent
 		}
-	}
-	
-	# Begin the duel
-	option = {
-		name = arena_combat.001.a
 		
-		# Start vanilla duel
+		# Start duel with opponent
 		start_duel = {
-			target = scope:opponent
+			target = scope:arena_opponent
 			skill = prowess
-		}
-	}
-	
-	# Forfeit (lose prestige but no injury risk)
-	option = {
-		name = arena_combat.001.b
-		
-		# Lose prestige
-		add_prestige = -100
-		
-		# Gain stress if ambitious/proud
-		if = {
-			limit = {
-				OR = {
-					has_trait = ambitious
-					has_trait = proud
-				}
-			}
-			add_stress = 20
+			value = high_duel_value
 		}
 		
-		# Clean up
-		arena_cleanup_match = yes
-		
-		# Kill opponent NPC
-		scope:opponent = {
-			death = { death_reason = death_vanished }
-		}
-	}
-}
-
-# Pre-duel flavor event (optional, adds narrative)
-arena_combat.002 = {
-	type = character_event
-	title = arena_combat.002.t
-	desc = arena_combat.002.desc
-	theme = martial
-	
-	left_portrait = {
-		character = root
-		animation = personality_bold
-	}
-	
-	right_portrait = {
-		character = scope:opponent
-		animation = personality_bold
-	}
-	
-	immediate = {
-		# Nothing needed
-	}
-	
-	option = {
-		name = arena_combat.002.a
-		
-		# Gain confidence (small prowess boost)
-		add_character_modifier = {
-			modifier = arena_warrior_advantage
+		# Set flag to track this is an arena duel
+		set_character_flag = {
+			flag = in_arena_duel
 			days = 1
 		}
+	}
+	
+	option = {
+		name = arena_combat.001.a
+		# Duel will proceed automatically
 	}
 }

@@ -77,29 +77,8 @@ arena_enter_decision = {
 			add_trait = arena_rank_f
 		}
 		
-		# Create arena opponent
-		create_character = {
-			location = root.capital_province
-			dynasty = none
-			age = { 25 35 }
-			gender_female_chance = 50
-			random_traits = yes
-			trait = education_martial_2
-			save_scope_as = arena_opponent
-		}
-		
-		# Start duel
-		start_duel = {
-			target = scope:arena_opponent
-			skill = prowess
-			value = high_duel_value
-		}
-		
-		# Set flag to track duel result
-		set_character_flag = {
-			flag = in_arena_duel
-			days = 1
-		}
+		# Trigger event to start arena combat
+		trigger_event = arena_combat.001
 	}
 	
 	ai_check_interval = 60

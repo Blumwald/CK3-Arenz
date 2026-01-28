@@ -1,7 +1,7 @@
 ﻿l_english:
  # Traits
- arena_rank_f:0 "Arena Combatant [F Rank]"
- arena_rank_f_desc:0 "This character is a novice arena fighter with 0-9 victories."
+ arena_rank_f:0 "Arena Novice [F Rank]"
+ arena_rank_f_desc:0 "A novice arena fighter with 0-9 victories."
  arena_rank_e:0 "Arena Fighter [E Rank]"
  arena_rank_e_desc:0 "This character is an experienced arena fighter with 10-24 victories."
  arena_rank_d:0 "Arena Veteran [D Rank]"
