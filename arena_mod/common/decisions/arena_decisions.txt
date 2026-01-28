@@ -77,51 +77,84 @@ arena_enter_decision = {
 			add_trait = arena_rank_f
 		}
 		
-		# Simple combat resolution
-		random = {
-			chance = 50
-			
-			# Victory
-			change_variable = {
-				name = arena_wins
-				add = 1
-			}
-			add_prestige = 50
-			add_gold = 25
-			
-			# Check for rank up
-			if = {
-				limit = {
-					var:arena_wins >= 10
-					has_trait = arena_rank_f
-				}
-				remove_trait = arena_rank_f
-				add_trait = arena_rank_e
-			}
-			if = {
-				limit = {
-					var:arena_wins >= 25
-					has_trait = arena_rank_e
-				}
-				remove_trait = arena_rank_e
-				add_trait = arena_rank_d
-			}
+		# Create arena opponent
+		create_character = {
+			location = root.capital_province
+			dynasty = none
+			age = { 25 35 }
+			gender_female_chance = 50
+			random_traits = yes
+			trait = education_martial_2
+			save_scope_as = arena_opponent
 		}
 		
-		# Defeat
-		random = {
-			chance = 50
+		# Start duel with opponent
+		start_duel = {
+			target = scope:arena_opponent
+			skill = prowess
+			value = high_duel_value
 			
-			change_variable = {
-				name = arena_losses
-				add = 1
+			# On victory
+			on_win = {
+				duel_winner = {
+					change_variable = {
+						name = arena_wins
+						add = 1
+					}
+					add_prestige = 50
+					add_gold = 25
+					
+					# Check for rank up to E
+					if = {
+						limit = {
+							var:arena_wins >= 10
+							has_trait = arena_rank_f
+						}
+						remove_trait = arena_rank_f
+						add_trait = arena_rank_e
+					}
+					
+					# Check for rank up to D
+					if = {
+						limit = {
+							var:arena_wins >= 25
+							has_trait = arena_rank_e
+						}
+						remove_trait = arena_rank_e
+						add_trait = arena_rank_d
+					}
+				}
+				
+				# Remove opponent after duel
+				duel_loser = {
+					death = {
+						death_reason = death_accident
+					}
+				}
 			}
-			add_prestige = -25
 			
-			# Injury chance
-			random = {
-				chance = 20
-				add_trait = wounded
+			# On defeat
+			on_loss = {
+				duel_loser = {
+					change_variable = {
+						name = arena_losses
+						add = 1
+					}
+					add_prestige = -25
+					
+					# Injury chance
+					random = {
+						chance = 30
+						add_trait = wounded
+					}
+				}
+				
+				# Remove opponent after duel
+				duel_winner = {
+					death = {
+						death_reason = death_accident
+					}
+				}
 			}
 		}
 	}
